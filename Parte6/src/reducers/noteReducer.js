@@ -1,3 +1,5 @@
+import { createSlice, current} from "@reduxjs/toolkit"
+
 const initialState = [
   {
     content: 'reducer defines how redux store works',
@@ -14,44 +16,63 @@ const initialState = [
 const generateId = () =>
   Number((Math.random() * 1000000).toFixed(0))
 
-export const createNote = (content) => {
-  return {
-    type: 'NEW_NOTE',
-    payload: {
-      content,
-      important: false,
-      id: generateId()
+// export const createNote = (content) => {
+//   return {
+//     type: 'NEW_NOTE',
+//     payload: {
+//       content,
+//       important: false,
+//       id: generateId()
+//     }
+//   }
+// }
+
+// export  const toggleImportanceOf = (id) => {
+//   return {
+//     type: 'TOGGLE_IMPORTANCE',
+//     payload: { id }
+//   }
+// }
+
+
+/* 
+Algunos comentarios:
+
+  Esta llamada a dispatch equivale a enviar el siguiente objeto:
+    dispatch({ type: 'notes/createNote', payload: 'Redux Toolkit is awesome!' })
+
+  Ahora la accion se llama "notes/createNote".
+*/
+
+const noteSlice = createSlice({
+  name: 'notes',
+  initialState,
+  reducers: {
+    createNote(state, action) {
+      const content = action.payload
+      state.push({
+        content,
+        important: false,
+        id: generateId(),
+      })
+    },
+    toggleImportanceOf(state, action) {
+      const id = action.payload
+      const noteToChange = state.find(n => n.id === id)
+      const changedNote = { 
+        ...noteToChange, 
+        important: !noteToChange.important 
+      }
+
+      console.log(current(state))
+
+
+      return state.map(note =>
+        note.id !== id ? note : changedNote 
+      )     
     }
-  }
-}
+  },
+})
 
-export  const toggleImportanceOf = (id) => {
-  return {
-    type: 'TOGGLE_IMPORTANCE',
-    payload: { id }
-  }
-}
-
-
-const noteReducer = (state = initialState, action) => {
-    switch(action.type) {
-      case 'NEW_NOTE':
-        console.log("Entré acá")
-        return [...state, action.payload] //Devuelvo un nuevo array con la concatenacion de los anteriores y el nuevo objeto
-      case 'TOGGLE_IMPORTANCE': {
-        const id = action.payload.id
-        const noteToChange = state.find(n => n.id === id)
-        const changedNote = { 
-          ...noteToChange, 
-          important: !noteToChange.important 
-        }
-        return state.map(note =>
-          note.id !== id ? note : changedNote 
-        )
-       }
-      default:
-        return state
-    }
-  }
-
-  export default noteReducer
+export const { createNote, toggleImportanceOf } = noteSlice.actions
+export default noteSlice.reducer
