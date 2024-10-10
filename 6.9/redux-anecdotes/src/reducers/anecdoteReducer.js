@@ -52,7 +52,7 @@ export const createAnecdote = (content) => {
   -El map es clave aquí, ya que crea un nuevo array en lugar de modificar el original. Esto es fundamental en Redux, ya que el estado debe ser inmutable, es decir, no debes modificar el array original directamente.
 
 */
-const anecdoteReducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
@@ -87,4 +87,4 @@ const anecdoteReducer = (state = initialState, action) => {
   }
 }
 
-export default anecdoteReducer
+export default reducer
