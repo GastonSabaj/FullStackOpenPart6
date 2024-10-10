@@ -1,1 +1,1 @@
-# FullStackOpenPart6
+"Estoy en proceso de hacer el ejercicio 6.3"
