@@ -4,7 +4,8 @@ import App from './App.jsx'
 // import './index.css'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import noteReducer from './reducers/noteReducer'
+import noteReducer, { appendNote } from './reducers/noteReducer'
+
 import filterReducer from './reducers/filterReducer.js'
 import { configureStore } from '@reduxjs/toolkit'
 
